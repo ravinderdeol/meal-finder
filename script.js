@@ -55,10 +55,26 @@ function searchMeal(e) {
 // Fetch Meal By ID
 
 function getMealByID(mealID) {
-    fetch(` https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
+    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
         .then(res => res.json())
         .then(data => {
             const meal = data.meals[0];
+            addMealToDOM(meal);
+        });
+}
+
+// Fetch Random Meal From API
+
+function getRandomMeal() {
+    // Clear Meals & Heading
+    mealsEl.innerHTML = '';
+    resultHeading.innerHTML = '';
+
+    fetch(` https://www.themealdb.com/api/json/v1/1/random.php`)
+        .then(res => res.json())
+        .then(data => {
+            const meal = data.meals[0];
+
             addMealToDOM(meal);
         });
 }
@@ -97,6 +113,8 @@ function addMealToDOM(meal) {
 // Event Listeners
 
 submit.addEventListener('submit', searchMeal);
+random.addEventListener('click', getRandomMeal);
+
 
 mealsEl.addEventListener('click', e => {
     const mealInfo = e.path.find(item => {
